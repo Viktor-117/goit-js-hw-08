@@ -1,4 +1,4 @@
-var debounce = require('debounce');
+var throttle = require('lodash.throttle');
 
 const refs = {
   form: document.querySelector('.feedback-form'),
@@ -22,9 +22,9 @@ const onInputEvent = evt => {
 
 const onFormSubmit = evt => {
   evt.preventDefault();
+  console.log('Відправляємо форму ', formData);
   evt.currentTarget.reset();
   localStorage.removeItem('feedback-form-state');
-  console.log('Відправляємо форму');
 };
 
 const onRefresh = evt => {
@@ -36,5 +36,5 @@ const onRefresh = evt => {
 };
 
 refs.form.addEventListener('submit', onFormSubmit);
-refs.form.addEventListener('input', debounce(onInputEvent, 200));
+refs.form.addEventListener('input', throttle(onInputEvent, 500));
 window.addEventListener('load', onRefresh);
